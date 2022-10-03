@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "bootstrap.bundle.js" %>
     <style>
       .pacifico {
       font-family: 'Pacifico', cursive;
@@ -18,14 +19,18 @@
       main.container {
         min-height: 65vh;
       }
+      .rainbow-text {
+          background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+      }
     </style>
   </head>
 
   <body>
     <%= render 'layouts/header' %>
-    <%= render 'layouts/alert' %>
 
     <main class="container my-5">
+      <%= render 'layouts/alert' %>
       <%= yield %>
     </main>
     <%= render 'layouts/footer' %>
