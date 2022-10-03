@@ -5,12 +5,29 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <style>
+      .pacifico {
+      font-family: 'Pacifico', cursive;
+
+      }
+      main.container {
+        min-height: 65vh;
+      }
+    </style>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'layouts/header' %>
+    <%= render 'layouts/alert' %>
+
+    <main class="container my-5">
+      <%= yield %>
+    </main>
+    <%= render 'layouts/footer' %>
   </body>
 </html>
