@@ -1,0 +1,2 @@
+class PokedexesController < ApplicationController
+end
