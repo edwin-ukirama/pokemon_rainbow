@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-4">
+      <%= image_tag 'placeholder.png', class:'img-thumbnail' %>
+
+    </div>
+    <div class="col">
+      <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9"><%= @pokedex.name %></dd>
+
+        <dt class="col-sm-3">Health Point (HP)</dt>
+        <dd class="col-sm-9"><%= @pokedex.health_point %></dd>
+
+        <dt class="col-sm-3">Attack (ATK)</dt>
+        <dd class="col-sm-9"><%= @pokedex.base_attack %></dd>
+
+        <dt class="col-sm-3">Defense (DEF)</dt>
+        <dd class="col-sm-9"><%= @pokedex.base_defense %></dd>
+
+        <dt class="col-sm-3">Speed (SPD)</dt>
+        <dd class="col-sm-9"><%= @pokedex.base_speed %></dd>
+
+        <dt class="col-sm-3">Element Type</dt>
+        <dd class="col-sm-9"><%= @pokedex.element_type.titleize %></dd>
+      </dl>
+    </div>
+  </div>
+
+</div>

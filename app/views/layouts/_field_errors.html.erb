@@ -1,0 +1,5 @@
+<div class="invalid-feedback">
+  <% object.errors.full_messages_for(key).each do |msg| %>
+    <%= msg %>
+  <% end %>
+</div>

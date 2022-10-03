@@ -1,0 +1,60 @@
+<%= form_with model: pokedex do |form| %>
+  <% invalid = pokedex.errors.include?(:name) %>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" name="pokedex[name]" class="form-control" value="<%= pokedex[:name] %>" required>
+    <%= render 'layouts/field_errors', object: pokedex, key: :name %>
+  </div>
+
+  <% invalid = pokedex.errors.include?(:health_point) %>
+  <div class="mb-3">
+    <label for="health_point" class="form-label">Health Point (HP)</label>
+    <input type="number" name="pokedex[health_point]" id="" class="form-control" value="<%= pokedex[:health_point] %>" required>
+    <%= render 'layouts/field_errors', object: pokedex, key: :health_point %>
+  </div>
+
+  <% invalid = pokedex.errors.include?(:base_attack) %>
+  <div class="mb-3">
+    <label for="base_attack" class="form-label">Base Attack</label>
+    <input type="number" name="pokedex[base_attack]" id="" class="form-control" value="<%= pokedex[:base_attack] %>" required>
+    <%= render 'layouts/field_errors', object: pokedex, key: :base_attack %>
+  </div>
+
+  <% invalid = pokedex.errors.include?(:base_defense) %>
+  <div class="mb-3">
+    <label for="base_defense" class="form-label">Base Defense</label>
+    <input type="number" name="pokedex[base_defense]" id="" class="form-control" value="<%= pokedex[:base_defense] %>" required>
+    <%= render 'layouts/field_errors', object: pokedex, key: :base_defense %>
+  </div>
+
+  <% invalid = pokedex.errors.include?(:base_speed) %>
+  <div class="mb-3">
+    <label for="base_speed" class="form-label">Base Speed</label>
+    <input type="number" name="pokedex[base_speed]" id="" class="form-control" value="<%= pokedex[:base_speed] %>" required>
+    <%= render 'layouts/field_errors', object: pokedex, key: :base_speed %>
+  </div>
+
+  <% invalid = pokedex.errors.include?(:element_type) %>
+  <div class="mb-3">
+    <label for="element_type">Element Type</label>
+    <select name="pokedex[element_type]" class="form-select">
+      <option>Click here to select</option>
+      <% Pokedex::TYPES.each do |type| %>
+        <option value="<%= type %>" <%= 'selected' if pokedex[:element_type] == type %>><%= type.titleize %></option>
+        <% end %>
+      </select>
+      <%= render 'layouts/field_errors', object: pokedex, key: :element_type %>
+    </div>
+
+    <% invalid = pokedex.errors.include?(:image_url) %>
+    <div class="mb-3">
+      <label for="image_url" class="form-label">Image Url</label>
+      <input type="text" name="pokedex[image_url]" class="form-control" value="<%= pokedex[:image_url] %>" required>
+      <%= render 'layouts/field_errors', object: pokedex, key: :image_url %>
+    </div>
+
+    <div class="d-flex align-items-center mx-auto">
+      <button type="submit" class="btn btn-primary me-3">Submit</button>
+      <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+  <% end %>
