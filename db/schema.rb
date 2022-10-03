@@ -15,8 +15,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_021945) do
   enable_extension "plpgsql"
 
   create_table "pokedexes", force: :cascade do |t|
+    t.string "name", limit: 45
+    t.integer "health_point"
+    t.integer "base_attack"
+    t.integer "base_defense"
+    t.integer "base_speed"
+    t.string "element_type"
+    t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "unique_names", unique: true
   end
 
 end
