@@ -1,4 +1,5 @@
 require 'json'
+require 'csv'
 require 'net/http'
 
 namespace :pokemon_rainbow do
@@ -21,5 +22,21 @@ namespace :pokemon_rainbow do
       pokedex = Pokedex.new(new_data)
       pokedex.save
     end
+  end
+
+  task import_skills: :environment do
+    file = URI.open("https://docs.google.com/spreadsheets/d/e/2PACX-1vSXcic99Q0mwuJXCiEVfPKac_eJdsggRm3c6sEo1qZpAQc-aOqcMF0Na9s4utuUc39ZM-xnYVUG9sMh/pub?gid=0&single=true&output=csv") { |f| f.read }
+    data = CSV.parse(file)
+    keys = data.shift
+    data.map! { |arr| Hash[keys.zip(arr)] }
+
+    data.each do |skill_params|
+      skill = Skill.new(skill_params)
+      skill.save
+    end
+  end
+
+  task import_evolutions: :environment do
+
   end
 end
