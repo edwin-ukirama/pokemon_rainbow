@@ -1,7 +1,9 @@
 <div class="d-flex align-items-center justify-content-between">
-  <h1>Pokedex</h1>
-  <a href="<%= new_pokedex_path %>" class="btn btn-primary">Create New Pokedex</a>
+  <h1>Pokédex</h1>
+  <a href="<%= new_pokedex_path %>" class="btn btn-primary">Create New Pokédex</a>
 </div>
+
+<%= render 'layouts/search_form' %>
 
 <%= render 'table', pokedexes: @pokedexes %>
 

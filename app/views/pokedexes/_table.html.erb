@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Name</th>
+        <th colspan="2">Name</th>
         <th>HP</th>
         <th>ATK</th>
         <th>DEF</th>
@@ -16,6 +16,9 @@
       <% pokedexes.each_with_index do |pokedex, index| %>
         <tr>
           <th scope="row"><%= index+1 %></td>
+          <td style="width:4rem">
+            <img src="<%= pokedex.image_url %>" alt="<%= pokedex.name %>" class="img-thumbnail">
+          </td>
           <td>
             <a href="<%= pokedex_path(pokedex) %>"> <%= pokedex.name %></a>
           </td>
@@ -23,7 +26,9 @@
           <td><%= pokedex.base_attack %></td>
           <td><%= pokedex.base_defense %></td>
           <td><%= pokedex.base_speed %></td>
-          <td><%= pokedex.element_type.titleize %></td>
+          <td>
+            <%= render 'layouts/type_badge', type: pokedex.element_type.titleize %>
+          </td>
           <td>
             <a class="btn btn-secondary" href="<%= edit_pokedex_path(pokedex)  %>">Edit</a>
             <%= link_to "Delete", pokedex_path(pokedex),data: { "turbo-method": :delete },  class: 'btn btn-danger', method: :delete %>
