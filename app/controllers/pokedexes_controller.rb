@@ -14,7 +14,7 @@ class PokedexesController < ApplicationController
 
   def create
     @pokedex = Pokedex.new(pokedex_params)
-    @pokedex.image_url = "0"
+
 
     if @pokedex.save
       flash[:success] = "Pokedex successfully created!"
