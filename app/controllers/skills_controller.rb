@@ -1,6 +1,12 @@
 class SkillsController < ApplicationController
   def index
-    @skills = Skill.all
+    if params[:query].present?
+      @skills = Skill.where('skills.name ILIKE ?', "%#{params[:query]}%")
+      @skills = @skills.or(Skill.where('skills.element_type ILIKE ?', "%#{params[:query]}%"))
+      @skills = @skills.page(params[:page])
+    else
+      @skills = Skill.page(params[:page])
+    end
   end
 
   def show
@@ -43,6 +49,7 @@ class SkillsController < ApplicationController
     @skill = Skill.find(params[:id])
     @skill.destroy
 
+    flash[:success] = "#{@skill.name.titleize} has been deleted!"
     redirect_to skills_path
   end
 

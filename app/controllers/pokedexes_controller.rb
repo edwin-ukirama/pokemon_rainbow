@@ -1,7 +1,13 @@
 require "pry"
 class PokedexesController < ApplicationController
   def index
-    @pokedexes = Pokedex.page(params[:page])
+    if params[:query].present?
+      @pokedexes = Pokedex.where('pokedexes.name ILIKE ?', "%#{params[:query]}%")
+      @pokedexes = @pokedexes.or(Pokedex.where('pokedexes.element_type ILIKE ?', "%#{params[:query]}%"))
+      @pokedexes = @pokedexes.page(params[:page])
+    else
+      @pokedexes = Pokedex.page(params[:page])
+    end
   end
 
   def show
