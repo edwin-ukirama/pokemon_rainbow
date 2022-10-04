@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex align-items-center justify-content-between">
+        <h2><%= @skill.name.titleize %></h2>
+        <div class="button-group">
+          <a class="btn btn-secondary" href="<%= edit_skill_path(@skill)  %>">Edit</a>
+          <%= link_to "Delete", skill_path(@skill),data: { "turbo-method": :delete, turbo_confirm: "Are you sure want to delete #{@skill.name.titleize}?" },  class: 'btn btn-danger', method: :delete %>
+
+        </div>
+      </div>
+      <dl class="row">
+        <dt class="col-sm-3">Power</dt>
+        <dd class="col-sm-9"><%= @skill.power %></dd>
+
+        <dt class="col-sm-3">Max PP</dt>
+        <dd class="col-sm-9"><%= @skill.max_pp %></dd>
+
+        <dt class="col-sm-3">Type</dt>
+        <dd class="col-sm-9"><%= @skill.element_type.titleize %></dd>
+      </dl>
+    </div>
+  </div>
+
+</div>

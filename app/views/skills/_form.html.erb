@@ -1,0 +1,45 @@
+<%= form_with model: skill, html: { class: 'needs-validation', novalidate:true } do |f| %>
+  <% invalid = skill.errors.include?(:name) %>
+  <div class="mb-3">
+    <label for="name" class="form-label">Skill Name</label>
+    <input type="text" name="skill[name]" class="form-control <%= 'is-invalid' if invalid %>" value="<%= skill["name"] %>">
+    <% if invalid %>
+      <%= render 'layouts/field_errors', object: skill, key: :name %>
+    <% end %>
+  </div>
+
+  <% invalid = skill.errors.include?(:power) %>
+  <div class="mb-3">
+    <label for="power" class="form-label">Power</label>
+    <input type="number" name="skill[power]" class="form-control <%= 'is-invalid' if invalid %>" value="<%= skill["power"] %>">
+    <% if invalid %>
+      <%= render 'layouts/field_errors', object: skill, key: :power %>
+    <% end %>
+  </div>
+
+  <% invalid = skill.errors.include?(:max_pp) %>
+  <div class="mb-3">
+    <label for="max_pp" class="form-label">Max PP</label>
+    <input type="number" name="skill[max_pp]" class="form-control <%= 'is-invalid' if invalid %>" value="<%= skill["max_pp"] %>">
+    <% if invalid %>
+      <%= render 'layouts/field_errors', object: skill, key: :max_pp %>
+    <% end %>
+  </div>
+
+  <% invalid = skill.errors.include?(:element_type) %>
+  <div class="mb-3">
+    <label for="element_type" class="form-label">Type</label>
+    <select name="skill[element_type]" class="form-select <%= 'is-invalid' if invalid %>">
+      <option>Click here to select</option>
+      <% Pokedex::TYPES.each do |type| %>
+        <option value="<%= type %>" <%= 'selected' if skill[:element_type] == type %>><%= type.titleize %></option>
+      <% end %>
+    </select>
+    <% if invalid %>
+      <%= render 'layouts/field_errors', object: skill, key: :element_type %>
+    <% end %>
+  </div>
+    <%= render 'layouts/submit-button-group' %>
+
+
+<% end %>

@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Skill</h1>
+  <a href="<%= new_skill_path %>" class="btn btn-primary">Create New Skill</a>
+</div>
+<%= render 'layouts/search_form' %>
+
+<%= render 'table', skills: @skills %>
+
+<%= paginate @skills,theme: 'bootstrap-5',
+                   pagination_class: "pagination flex-wrap justify-content-center me-auto",
+                   nav_class: "d-inline-block" %>
