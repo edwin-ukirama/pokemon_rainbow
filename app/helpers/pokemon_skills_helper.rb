@@ -1,0 +1,2 @@
+module PokemonSkillsHelper
+end

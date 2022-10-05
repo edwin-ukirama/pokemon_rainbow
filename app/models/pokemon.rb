@@ -1,5 +1,9 @@
 class Pokemon < ApplicationRecord
+  NUMBER_OF_ALLOWED_SKILLS = 4
+
   belongs_to :pokedex
+  has_many :pokemon_skills
+  has_many :skills, through: :pokemon_skills
 
   validates :name, presence: true, uniqueness: { message: "Pokemon already exist in your dex"}
   validates :max_health_point, numericality: { greater_than: 0 }, presence: true

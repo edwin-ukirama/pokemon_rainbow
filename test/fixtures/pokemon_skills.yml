@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  skill: one
+  pokemon: one
+  current_pp: 1
+
+two:
+  skill: two
+  pokemon: two
+  current_pp: 1
