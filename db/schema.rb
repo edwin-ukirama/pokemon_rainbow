@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_04_012458) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_04_064813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_012458) do
     t.index ["name"], name: "unique_names", unique: true
   end
 
+  create_table "pokemons", force: :cascade do |t|
+    t.bigint "pokedex_id", null: false
+    t.string "name", limit: 45
+    t.integer "level", default: 1, null: false
+    t.integer "max_health_point", null: false
+    t.integer "current_health_point", null: false
+    t.integer "attack", null: false
+    t.integer "defense", null: false
+    t.integer "speed", null: false
+    t.integer "current_experience", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "unique_pokemon_names", unique: true
+    t.index ["pokedex_id"], name: "index_pokemons_on_pokedex_id"
+  end
+
   create_table "skills", force: :cascade do |t|
     t.string "name", limit: 45
     t.integer "power"
@@ -37,4 +53,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_012458) do
     t.index ["name"], name: "unique_skill_names", unique: true
   end
 
+  add_foreign_key "pokemons", "pokedexes"
 end
