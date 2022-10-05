@@ -1,0 +1,9 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Pokemon</h1>
+  <div class="d-flex justify-content-around">
+    <a href="<%= new_pokemon_path %>" class="btn btn-primary me-2">Add Pokemon</a>
+    <a href="<%= heal_all_pokemons_path %>" class="btn btn-success">Heal All</a>
+  </div>
+</div>
+
+<%= render 'table', pokemons: @pokemons %>

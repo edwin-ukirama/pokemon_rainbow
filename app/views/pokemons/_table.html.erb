@@ -1,0 +1,41 @@
+<div class="table-responsive-md">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th colspan="2">Name</th>
+        <th>HP</th>
+        <th>ATK</th>
+        <th>DEF</th>
+        <th>SPD</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% pokemons.each_with_index do |pokemon, index| %>
+        <tr>
+          <th scope="row"><%= index+1 %></td>
+          <td style="width:4rem">
+            <img src="<%= pokemon.pokedex.image_url %>" loading="lazy" alt="<%= pokemon.name %>" class="img-thumbnail">
+          </td>
+          <td>
+            <a href="<%= pokemon_path(pokemon) %>"> <%= pokemon.name %></a>
+          </td>
+          <td><%= pokemon.current_health_point %> / <%= pokemon.max_health_point %> </td>
+          <td><%= pokemon.attack %></td>
+          <td><%= pokemon.defense %></td>
+          <td><%= pokemon.speed %></td>
+          <td>
+            <%= render 'layouts/type_badge', type: pokemon.pokedex.element_type.titleize %>
+          </td>
+          <td>
+            <a class="btn btn-success" href="<%= pokemon_heal_path(pokemon)  %>">Heal</a>
+            <%# <%= link_to "Heal",  %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="d-flex align-items-center justify-content-between">
+      <h2><%= @pokemon.name %></h2>
+      <div class="d-flex">
+        <button class="btn btn-success me-2">Heal</button>
+        <a class="btn btn-secondary me-2" href="<%= edit_pokemon_path(@pokemon) %>">Edit</a>
+        <button class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <img src="<%= @pokemon.pokedex.image_url %>" alt="<%= @pokemon.name %>" class="img-thumbnail">
+    </div>
+    <div class="col">
+      <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9"><%= @pokemon.name %></dd>
+
+        <dt class="col-sm-3">Kind</dt>
+        <dd class="col-sm-9"><%= @pokemon.pokedex.name %></dd>
+
+        <dt class="col-sm-3">Health Point (HP)</dt>
+        <dd class="col-sm-9"><%= @pokemon.current_health_point %> / <%= @pokemon.max_health_point %></dd>
+
+        <dt class="col-sm-3">Attack (ATK)</dt>
+        <dd class="col-sm-9"><%= @pokemon.attack %></dd>
+
+        <dt class="col-sm-3">Defense (DEF)</dt>
+        <dd class="col-sm-9"><%= @pokemon.defense %></dd>
+
+        <dt class="col-sm-3">Speed (SPD)</dt>
+        <dd class="col-sm-9"><%= @pokemon.speed %></dd>
+
+        <dt class="col-sm-3">Element Type</dt>
+        <dd class="col-sm-9"><%= @pokemon.pokedex.element_type.titleize %></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-5">
+  <div class="d-flex justify-content-between align-items-center my-2">
+    <h3>List Attack</h3>
+    <button class="btn btn-secondary">Add Skill</button>
+  </div>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Type</th>
+        <th>PP</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%# TODO Pokemon SKill %>
+    </tbody>
+  </table>
+</div>

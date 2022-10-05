@@ -1,0 +1,26 @@
+<%= form_with model: pokemon, html: {class: 'needs-validation', novalidate:true} do |form| %>
+  <% invalid = pokemon.errors.include?(:name) %>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" name="pokemon[name]" value="<%= pokemon["name"] %>" class="form-control <%= 'is-invalid' if invalid %>">
+    <% if invalid %>
+      <%= render 'layouts/field_errors', object: pokemon, key: :name %>
+    <% end %>
+  </div>
+
+  <% invalid = pokemon.errors.include?(:pokedex_id) %>
+  <div class="mb-3">
+    <label for="pokedex_id">Select Pokemon</label>
+    <select name="pokemon[pokedex_id]" class="form-select <%= 'is-invalid' if invalid %>">
+      <option>Click here to select</option>
+      <% @pokedexes.each do |pokedex| %>
+        <option value="<%= pokedex.id %>" <%= 'selected' if pokemon[:pokedex_id] == pokedex.id %>><%= pokedex.name %></option>
+        <% end %>
+      </select>
+      <% if invalid %>
+        <%= render 'layouts/field_errors', object: pokemon, key: :pokedex_id %>
+      <% end %>
+    </div>
+
+    <%= render 'layouts/submit-button-group' %>
+  <% end %>
