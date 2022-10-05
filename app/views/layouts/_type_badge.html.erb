@@ -1,3 +1,8 @@
-<span class="badge text-bg-secondary">
+<% custom_class = case type.downcase
+ when "normal" then "text-bg-secondary"
+ else "bg-#{type.downcase}"
+ end  %>
+
+<span class="badge <%= custom_class %>">
   <%= type %>
 </span>

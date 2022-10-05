@@ -1,0 +1,80 @@
+.pacifico {
+    font-family: 'Pacifico', cursive;
+}
+
+main.container {
+    min-height: 65vh;
+}
+
+.rainbow-text {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+}
+
+.bg-fighting {
+    background-color: #c03028;
+}
+
+.bg-flying {
+    background-color: #6699ff;
+}
+
+.bg-poison {
+    background-color: #aa5599;
+}
+
+.bg-ground {
+    background-color: #ddbb55;
+}
+
+.bg-rock {
+    background-color: #aaa581;
+}
+
+.bg-bug {
+    background-color: #a0a028;
+}
+
+.bg-ghost {
+    background-color: #6f4570;
+}
+
+.bg-steel {
+    background-color: #aaaabb;
+}
+
+.bg-fire {
+    background-color: #e5613e;
+}
+
+.bg-water {
+    background-color: #309ae2;
+}
+
+.bg-grass {
+    background-color: #77cc55;
+}
+
+.bg-electric {
+    background-color: #e0bd28;
+}
+
+.bg-psychic {
+    background-color: #eb6c8e;
+}
+
+.bg-ice {
+    background-color: #47c9c9;
+}
+
+.bg-dragon {
+    background-color: #576fbd;
+}
+
+.bg-dark {
+    background-color: #4f4747;
+}
+
+.bg-fairy {
+    background-color: #e28de2;
+}
