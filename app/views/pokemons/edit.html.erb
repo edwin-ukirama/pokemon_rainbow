@@ -1,0 +1,68 @@
+<h1>Edit <%= @pokemon.name %></h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <img src="<%= @pokemon.pokedex.image_url %>" alt="<%= @pokemon.name %>" class="img-thumbnail">
+    </div>
+    <div class="col">
+      <%= form_with model: @pokemon do %>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" name="pokemon[name]" value="<%= @pokemon["name"] %>" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">HP</label>
+          <div class="progress">
+            <% hp_percentage = calculate_hp_percentage(@pokemon) %>
+            <div class="progress-bar <%= get_bg_color(@pokemon) %>" role="progressbar" style="width: <%= hp_percentage %>%;">
+              <%= @pokemon.current_health_point %> / <%= @pokemon.max_health_point %>
+            </div>
+          </div>
+        </div>
+
+        <%= render 'layouts/submit-button-group' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt-5">
+  <div class="d-flex justify-content-between align-items-center my-2">
+    <h3>List Attack</h3>
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSkillModal">Add Skill</button>
+  </div>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Type</th>
+        <th>PP</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pokemon.pokemon_skills.each do |ref| %>
+        <tr>
+          <td><%= ref.skill.name.titleize %></td>
+          <td>
+            <%= render 'layouts/type_badge', type: ref.skill.element_type.titleize %>
+          </td>
+          <td>
+            <%= ref.current_pp %> / <%= ref.skill.max_pp %>
+          </td>
+          <td>
+            <%= link_to "Refill Skill",
+              pokemon_refill_skill_path(pokemon_id: @pokemon.id, skill_id: ref.id),
+              class: 'btn btn-sm btn-success me-2',
+              data: { turbo_method: :post, turbo_confirm: "Are you want to refill #{ref.skill.name.titleize} PP?"}  %>
+
+            <%= link_to "Delete",
+              pokemon_remove_skill_path(pokemon_id: @pokemon.id, skill_id: ref.id),
+              class: 'btn btn-sm btn-danger',
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure want to remove #{ref.skill.name.titleize}?"} %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

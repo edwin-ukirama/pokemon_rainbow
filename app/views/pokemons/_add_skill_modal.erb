@@ -1,0 +1,26 @@
+<div class="modal fade" id="addSkillModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Skill</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="<%= pokemon_add_skill_path(pokemon) %>" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <select class="form-select" name="skill_id">
+              <% @skills.each do |skill| %>
+                <option value="<%= skill.id %>"><%= skill.name.titleize %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -3,9 +3,9 @@
     <div class="d-flex align-items-center justify-content-between">
       <h2><%= @pokemon.name %></h2>
       <div class="d-flex">
-        <button class="btn btn-success me-2">Heal</button>
+        <a class="btn btn-success me-2" href="<%= pokemon_heal_path(@pokemon) %>">Heal</a>
         <a class="btn btn-secondary me-2" href="<%= edit_pokemon_path(@pokemon) %>">Edit</a>
-        <button class="btn btn-danger">Delete</button>
+        <%= link_to "Delete", pokemon_path(@pokemon), data: { turbo_method: :delete, turbo_confirm: "Are you sure want to delete #{@pokemon.name} ?" }, class: 'btn btn-danger' %>
       </div>
     </div>
   </div>
@@ -18,11 +18,27 @@
         <dt class="col-sm-3">Name</dt>
         <dd class="col-sm-9"><%= @pokemon.name %></dd>
 
-        <dt class="col-sm-3">Kind</dt>
-        <dd class="col-sm-9"><%= @pokemon.pokedex.name %></dd>
+        <dt class="col-sm-3 mb-2">Health Point (HP)</dt>
+        <dd class="col-sm-9">
+          <div class="col-sm-4">
+            <div class="progress">
+              <% hp_percentage = calculate_hp_percentage(@pokemon) %>
+              <div class="progress-bar <%= get_bg_color(@pokemon) %>" role="progressbar" style="width: <%= hp_percentage %>%;">
+                <%= @pokemon.current_health_point %> / <%= @pokemon.max_health_point %>
+              </div>
+            </div>
+          </div>
+        </dd>
 
-        <dt class="col-sm-3">Health Point (HP)</dt>
-        <dd class="col-sm-9"><%= @pokemon.current_health_point %> / <%= @pokemon.max_health_point %></dd>
+        <dt class="col-sm-3">Kind</dt>
+        <dd class="col-sm-9">
+          <a href="<%= pokedex_path(@pokemon.pokedex) %>"><%= @pokemon.pokedex.name %></a>
+        </dd>
+
+        <dt class="col-sm-3">Element Type</dt>
+        <dd class="col-sm-9">
+          <%= render 'layouts/type_badge', type: @pokemon.pokedex.element_type.titleize %>
+        </dd>
 
         <dt class="col-sm-3">Attack (ATK)</dt>
         <dd class="col-sm-9"><%= @pokemon.attack %></dd>
@@ -33,8 +49,6 @@
         <dt class="col-sm-3">Speed (SPD)</dt>
         <dd class="col-sm-9"><%= @pokemon.speed %></dd>
 
-        <dt class="col-sm-3">Element Type</dt>
-        <dd class="col-sm-9"><%= @pokemon.pokedex.element_type.titleize %></dd>
       </dl>
     </div>
   </div>
@@ -43,7 +57,7 @@
 <div class="container-fluid mt-5">
   <div class="d-flex justify-content-between align-items-center my-2">
     <h3>List Attack</h3>
-    <button class="btn btn-secondary">Add Skill</button>
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSkillModal">Add Skill</button>
   </div>
   <table class="table table-sm">
     <thead>
@@ -55,7 +69,19 @@
       </tr>
     </thead>
     <tbody>
-      <%# TODO Pokemon SKill %>
+      <% @pokemon.pokemon_skills.each do |ref| %>
+        <tr>
+          <td><%= ref.skill.name.titleize %></td>
+          <td>
+            <%= render 'layouts/type_badge', type: ref.skill.element_type.titleize %>
+          </td>
+          <td>
+            <%= ref.current_pp %> / <%= ref.skill.max_pp %>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
+
+<%= render 'add_skill_modal', pokemon: @pokemon %>
