@@ -1,7 +1,8 @@
 require "test_helper"
 
 class PokedexTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'invalid without name' do
+    pokedex = Pokedex.new
+    assert_not pokedex.save
+  end
 end

@@ -2,7 +2,7 @@ class PokemonBattlesController < ApplicationController
   add_breadcrumb "Home", :root_path
   add_breadcrumb "Pokemon Battle", :pokemon_battles_path
   def index
-    @battles = PokemonBattle.all
+    @battles = PokemonBattle.page(params[:page])
   end
 
   def show
@@ -37,23 +37,23 @@ class PokemonBattlesController < ApplicationController
   end
 
   def action_attack
-    @battle = PokemonBattle.find(params[:pokemon_battle_id])
+    battle = PokemonBattle.find(params[:pokemon_battle_id])
     pokemon_skill = PokemonSkill.find(params[:skill_id])
-    battle_engine = BattleEngine.new(@battle)
+    battle_engine = BattleEngine.new(battle)
     battle_engine.pokemon_skill = pokemon_skill
 
     if battle_engine.valid_next_turn?
       battle_engine.next_turn!(action: BattleEngine::ATTACK, pokemon_skill: pokemon_skill)
     end
 
-    redirect_to @battle
+    redirect_to battle
   end
 
   def surrender
     @battle = PokemonBattle.find(params[:pokemon_battle_id])
     battle_engine = BattleEngine.new(@battle)
     battle_engine.next_turn!(action: BattleEngine::SURRENDER)
-    redirect_to pokemon_battles_path
+    redirect_to @battle
   end
 
   private

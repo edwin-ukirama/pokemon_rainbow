@@ -2,14 +2,17 @@ class PokemonBattleCalculator
   def self.calculate_damage(attacker, defender, skill)
     stab = attacker.pokedex.element_type == skill.element_type ? 1.5 : 1
 
-    types = JSON.parse(File.read("#{Rails.root}/lib/assets/type-chart.json"))
-
-    wr = types[skill.element_type][defender.pokedex.element_type]
+    wr = calculate_type_multiplier(skill.element_type,defender.pokedex.element_type)
 
     random_number = rand(85..100)
 
     damage = ((((2.0 * attacker.level/5.0) + 2) * attacker.attack * skill.power / defender.defense/50.0) + 2) * stab * wr * (random_number/100.0)
     return damage.to_i
+  end
+
+  def self.calculate_type_multiplier(skill_type, target_type)
+    types = JSON.parse(File.read("#{Rails.root}/lib/assets/type-chart.json"))
+    types[skill_type][target_type]
   end
 
   def self.calculate_experience(enemy_level)

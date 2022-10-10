@@ -1,4 +1,8 @@
-<%= render 'layouts/breadcrumbs' %>
+<div class="d-flex align-items-center justify-content-between">
+  <%= render 'layouts/breadcrumbs' %>
+  <a href="<%= pokemon_battle_log_path(@battle)  %>" class="btn btn-secondary">Battle Logs</a>
+
+</div>
 <div class="container-fluid mt-5">
   <div class="row">
     <div class="col">
@@ -21,15 +25,29 @@
       </div>
 
       <% if @battle.winner.present? %>
-        <div class="text-center">
+        <div class="card card-body mt-5">
+          <div class="text-center">
 
-          <h1 class="text-center mt-5"><%= @battle.winner.name %> Win!</h1>
-          <p>
-            <%= @battle.winner.name %> gain <%= @battle.experience_gain %> experience point
-          </p>
+            <h1 class="text-center"><%= @battle.winner.name %> Win!</h1>
+            <p>
+              <%= @battle.winner.name %> gain <%= @battle.experience_gain %> experience point
+            </p>
+          </div>
         </div>
+
       <% end %>
 
+      <% if @battle.battle_logs.present? and @battle.state.eql? PokemonBattle::ONGOING %>
+
+        <div class="card mt-5">
+          <div class="card-body">
+
+            <div class="text-center">
+              <p><%= @battle.battle_logs.last.message %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
     <div class="col">
       <%= render 'pokemon_info', pokemon: @battle.pokemon_2 %>
@@ -43,4 +61,8 @@
     </div>
 
   </div>
+</div>
+
+<div class="container">
+
 </div>

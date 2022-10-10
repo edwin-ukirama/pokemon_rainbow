@@ -13,35 +13,35 @@
           <label for="pokemon_1_id" class="form-label">Pokemon 1</label>
           <select name="battle[pokemon_1_id]" id="" class="form-select <%= 'is-invalid' if invalid %>">
             <% @pokemons.each do |pokemon| %>
-              <option value="<%= pokemon.id %>"><%= pokemon.name %></option>
+              <option value="<%= pokemon.id %>" <%= 'selected' if @battle[:pokemon_2_id].eql? pokemon.id %>><%= pokemon.name %></option>
+              <% end %>
+            </select>
+            <% if invalid %>
+              <%= render 'layouts/field_errors', object: @battle, key: :pokemon_1_id %>
             <% end %>
-          </select>
-          <% if invalid %>
-            <%= render 'layouts/field_errors', object: @battle, key: :pokemon_1_id %>
-          <% end %>
+          </div>
+        </div>
+        <div class="col">
+          <h2 class="text-center">VS</h2>
+        </div>
+        <div class="col">
+          <% invalid = @battle.errors.include?(:pokemon_2_id) %>
+          <div class="mb-3">
+            <label for="pokemon_2_id" class="form-label">Pokemon 2</label>
+            <select name="battle[pokemon_2_id]" id="" class="form-select <%= 'is-invalid' if invalid %>">
+              <% @pokemons.each do |pokemon| %>
+                <option value="<%= pokemon.id %>" <%= 'selected' if @battle[:pokemon_2_id].eql? pokemon.id %>><%= pokemon.name %></option>
+                <% end %>
+              </select>
+              <% if invalid %>
+                <%= render 'layouts/field_errors', object: @battle, key: :pokemon_2_id %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col">
-        <h2 class="text-center">VS</h2>
-      </div>
-      <div class="col">
-        <% invalid = @battle.errors.include?(:pokemon_2_id) %>
-        <div class="mb-3">
-          <label for="pokemon_2_id" class="form-label">Pokemon 2</label>
-          <select name="battle[pokemon_2_id]" id="" class="form-select <%= 'is-invalid' if invalid %>">
-            <% @pokemons.each do |pokemon| %>
-              <option value="<%= pokemon.id %>"><%= pokemon.name %></option>
-            <% end %>
-          </select>
-          <% if invalid %>
-            <%= render 'layouts/field_errors', object: @battle, key: :pokemon_2_id %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="d-flex align-items-center justify-content-between mt-5">
-    <button type="submit" class="btn btn-primary mx-auto">Create Battle</button>
-  </div>
-<% end %>
+      <div class="d-flex align-items-center justify-content-between mt-5">
+        <button type="submit" class="btn btn-primary mx-auto">Create Battle</button>
+      </div>
+    <% end %>

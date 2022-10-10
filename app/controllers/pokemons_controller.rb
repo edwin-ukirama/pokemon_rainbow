@@ -1,7 +1,7 @@
 require 'pry'
 class PokemonsController < ApplicationController
   add_breadcrumb "Home", :root_path
-  add_breadcrumb "Pokemons", :pokemons_path
+  add_breadcrumb "Pokemon", :pokemons_path
   def index
     @pokemons = Pokemon.all
   end
@@ -42,10 +42,11 @@ class PokemonsController < ApplicationController
   end
 
   def edit
-    add_breadcrumb "Edit Pokemon"
     @pokemon = Pokemon.find(params[:id])
     @skills = Skill.where(element_type: [@pokemon.pokedex.element_type, "normal"])
-          .where.not(id: @pokemon.skills.ids)
+    .where.not(id: @pokemon.skills.ids)
+    add_breadcrumb "#{@pokemon.name}"
+    add_breadcrumb "Edit"
   end
 
   def update

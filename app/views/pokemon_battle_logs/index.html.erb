@@ -1,7 +1,7 @@
 <%= render 'layouts/breadcrumbs' %>
+
 <div class="d-flex align-items-center justify-content-between">
-  <h1>Pokemon Battle</h1>
-  <a href="<%= new_pokemon_battle_path %>" class="btn btn-primary">Create Battle</a>
+  <h1>Battle Logs</h1>
 </div>
 
 <table class="table">
@@ -28,16 +28,12 @@
         </td>
         <td><%= battle.current_turn %></td>
         <td>
-          <%= render 'battle_status_badge', status: battle.state %>
+          <%= render 'pokemon_battles/battle_status_badge', status: battle.state %>
         </td>
         <td>
-          <a href="<%= pokemon_battle_path(battle) %>" class="btn btn-sm btn-success">Battle</a>
+          <a href="<%= pokemon_battle_log_path(battle) %>" class="btn btn-sm btn-success">View Log</a>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<%= paginate @battles,theme: 'bootstrap-5',
-                   pagination_class: "pagination flex-wrap justify-content-center me-auto",
-                   nav_class: "d-inline-block" %>

@@ -10,52 +10,108 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-4">
       <img src="<%= @pokemon.pokedex.image_url %>" alt="<%= @pokemon.name %>" class="img-thumbnail">
     </div>
     <div class="col">
-      <dl class="row">
-        <dt class="col-sm-3">Name</dt>
-        <dd class="col-sm-9"><%= @pokemon.name %></dd>
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-other-tab" data-bs-toggle="pill" data-bs-target="#pills-other" type="button" role="tab" aria-controls="pills-other" aria-selected="false">Other</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+          <dl class="row">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9"><%= @pokemon.name %></dd>
 
-        <dt class="col-sm-3">Level</dt>
-        <dd class="col-sm-9"><%= @pokemon.level %></dd>
+            <dt class="col-sm-3">Level</dt>
+            <dd class="col-sm-9"><%= @pokemon.level %></dd>
 
-        <dt class="col-sm-3 mb-2">Experience</dt>
-        <dd class="col-sm-9">
-          <div class="col-6">
-            <%= render 'layouts/experience_bar', pokemon: @pokemon %>
+            <dt class="col-sm-3 mb-2">Experience</dt>
+            <dd class="col-sm-9">
+              <div class="col-6">
+                <%= render 'layouts/experience_bar', pokemon: @pokemon %>
+              </div>
+            </dd>
+
+            <dt class="col-sm-3 mb-2">Health Point (HP)</dt>
+            <dd class="col-sm-9">
+              <div class="col-6">
+                <%= render 'layouts/health_bar', pokemon: @pokemon %>
+              </div>
+            </dd>
+
+            <dt class="col-sm-3">Kind</dt>
+            <dd class="col-sm-9">
+              <a href="<%= pokedex_path(@pokemon.pokedex) %>"><%= @pokemon.pokedex.name %></a>
+            </dd>
+
+            <dt class="col-sm-3">Element Type</dt>
+            <dd class="col-sm-9">
+              <%= render 'layouts/type_badge', type: @pokemon.pokedex.element_type.titleize %>
+            </dd>
+
+            <dt class="col-sm-3">Attack (ATK)</dt>
+            <dd class="col-sm-9"><%= @pokemon.attack %></dd>
+
+            <dt class="col-sm-3">Defense (DEF)</dt>
+            <dd class="col-sm-9"><%= @pokemon.defense %></dd>
+
+            <dt class="col-sm-3">Speed (SPD)</dt>
+            <dd class="col-sm-9"><%= @pokemon.speed %></dd>
+
+          </dl>
+        </div>
+        <div class="tab-pane fade" id="pills-other" role="tabpanel" aria-labelledby="pills-other-tab" tabindex="0">
+          <p><%= @pokemon.name %> has fought <%= @pokemon.battles.count %>. As a result <%= @pokemon.name %> won <%= @pokemon.battle_won.count %> battle and lose <%= @pokemon.battle_lose.count %> battle</p>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Battle Fought</h5>
+                  <p class="card-text">
+                    <b>
+                      <%= @pokemon.battles.count %>
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Battle Won</h5>
+                  <p class="card-text text-success">
+                    <b>
+                      <%= @pokemon.battle_won.count %>
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Battle Lose</h5>
+                  <p class="card-text text-danger">
+                    <b>
+                      <%= @pokemon.battle_lose.count %>
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </dd>
+        </div>
+      </div>
 
-        <dt class="col-sm-3 mb-2">Health Point (HP)</dt>
-        <dd class="col-sm-9">
-          <div class="col-6">
-            <%= render 'layouts/health_bar', pokemon: @pokemon %>
-          </div>
-        </dd>
-
-        <dt class="col-sm-3">Kind</dt>
-        <dd class="col-sm-9">
-          <a href="<%= pokedex_path(@pokemon.pokedex) %>"><%= @pokemon.pokedex.name %></a>
-        </dd>
-
-        <dt class="col-sm-3">Element Type</dt>
-        <dd class="col-sm-9">
-          <%= render 'layouts/type_badge', type: @pokemon.pokedex.element_type.titleize %>
-        </dd>
-
-        <dt class="col-sm-3">Attack (ATK)</dt>
-        <dd class="col-sm-9"><%= @pokemon.attack %></dd>
-
-        <dt class="col-sm-3">Defense (DEF)</dt>
-        <dd class="col-sm-9"><%= @pokemon.defense %></dd>
-
-        <dt class="col-sm-3">Speed (SPD)</dt>
-        <dd class="col-sm-9"><%= @pokemon.speed %></dd>
-
-      </dl>
     </div>
   </div>
 </div>

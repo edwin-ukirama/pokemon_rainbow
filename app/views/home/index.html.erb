@@ -4,9 +4,83 @@
       <div class="row mb-5">
         <%= image_tag 'pokemon-logo.svg', class: 'img-fluid' %>
       </div>
-      <div class="row">
+      <%# <div class="row">
         <div class="col-3 mx-auto">
-          <%= link_to "Play Pokemon", "", class: "btn btn-primary" %>
+        </div>
+      </div> %>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">The MVP</h5>
+        <div class="mx-auto">
+          <img src="<%= @win_stat[:pokemon].pokedex.image_url %>" loading="lazy" alt="<%= @win_stat[:pokemon].name %>" class="img-thumbnail">
+        </div>
+        <div class="text-center">
+          <h5 class="card-text mt-2">
+            <a href="<%= pokemon_path(@win_stat[:pokemon])  %>">
+              <%= @win_stat[:pokemon].name %>
+            </a>
+          </h5>
+          <p class="card-text mt-1">With <%= @win_stat[:win_count] %> win</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">The Tryharder</h5>
+        <div class="mx-auto">
+          <img src="<%= @lost_stat[:pokemon].pokedex.image_url %>" loading="lazy" alt="<%= @lost_stat[:pokemon].name %>" class="img-thumbnail">
+        </div>
+        <div class="text-center">
+          <h5 class="card-text mt-2">
+            <a href="<%= pokemon_path(@lost_stat[:pokemon])  %>">
+              <%= @lost_stat[:pokemon].name %>
+            </a>
+          </h5>
+          <p class="card-text mt-1">With <%= @lost_stat[:lose_count] %> lost</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Most Picked Pokemon</h5>
+        <div class="mx-auto">
+          <img src="<%= @most_picked[:pokemon].pokedex.image_url %>" loading="lazy" alt="<%= @most_picked[:pokemon].name %>" class="img-thumbnail">
+        </div>
+        <div class="text-center">
+          <h5 class="card-text mt-2">
+            <a href="<%= pokemon_path(@most_picked[:pokemon])  %>">
+              <%= @most_picked[:pokemon].name %>
+            </a>
+          </h5>
+          <p class="card-text mt-1">With <%= @most_picked[:count] %> battle</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">The Lazy</h5>
+        <div class="mx-auto">
+          <img src="<%= @surrender_stat[:pokemon].pokedex.image_url %>" loading="lazy" alt="<%= @surrender_stat[:pokemon].name %>" class="img-thumbnail">
+        </div>
+        <div class="text-center">
+          <h5 class="card-text mt-2">
+            <a href="<%= pokemon_path(@surrender_stat[:pokemon])  %>">
+              <%= @surrender_stat[:pokemon].name %>
+            </a>
+          </h5>
+          <p class="card-text mt-1">With <%= @surrender_stat[:surrender_count] %> surrender</p>
         </div>
       </div>
     </div>

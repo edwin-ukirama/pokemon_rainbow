@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :pokemon_battle_logs
   root 'home#index'
   resources :pokemon_battles do
     post 'action-attack', to: 'pokemon_battles#action_attack', as: :action_attack
@@ -14,4 +15,5 @@ Rails.application.routes.draw do
   end
   resources :skills
   resources :pokedexes
+  resources :pokemon_battle_logs, only: [:show, :index]
 end

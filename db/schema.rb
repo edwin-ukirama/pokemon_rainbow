@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_092003) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_10_042453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_092003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "unique_names", unique: true
+  end
+
+  create_table "pokemon_battle_logs", force: :cascade do |t|
+    t.bigint "pokemon_battle_id", null: false
+    t.integer "turn"
+    t.bigint "skill_id"
+    t.string "message"
+    t.integer "damage"
+    t.bigint "attacker_id", null: false
+    t.integer "attacker_current_health_point"
+    t.bigint "defender_id", null: false
+    t.integer "defender_current_health_point"
+    t.string "action_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attacker_id"], name: "index_pokemon_battle_logs_on_attacker_id"
+    t.index ["defender_id"], name: "index_pokemon_battle_logs_on_defender_id"
+    t.index ["pokemon_battle_id"], name: "index_pokemon_battle_logs_on_pokemon_battle_id"
+    t.index ["skill_id"], name: "index_pokemon_battle_logs_on_skill_id"
   end
 
   create_table "pokemon_battles", force: :cascade do |t|
@@ -81,6 +100,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_092003) do
     t.index ["name"], name: "unique_skill_names", unique: true
   end
 
+  add_foreign_key "pokemon_battle_logs", "pokemon_battles"
+  add_foreign_key "pokemon_battle_logs", "pokemons", column: "attacker_id"
+  add_foreign_key "pokemon_battle_logs", "pokemons", column: "defender_id"
+  add_foreign_key "pokemon_battle_logs", "skills"
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_1_id"
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_2_id"
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_loser_id"
