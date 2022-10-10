@@ -1,13 +1,17 @@
 class PokemonBattlesController < ApplicationController
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "Pokemon Battle", :pokemon_battles_path
   def index
     @battles = PokemonBattle.all
   end
 
   def show
     @battle = PokemonBattle.find(params[:id])
+    add_breadcrumb "Battle"
   end
 
   def new
+    add_breadcrumb "Create Battle"
     @battle = PokemonBattle.new
     @pokemons = Pokemon.all
   end

@@ -4,6 +4,7 @@
       <tr>
         <th>#</th>
         <th colspan="2">Name</th>
+        <th class="text-center">Level</th>
         <th>HP</th>
         <th>ATK</th>
         <th>DEF</th>
@@ -21,6 +22,9 @@
           </td>
           <td>
             <a href="<%= pokemon_path(pokemon) %>"> <%= pokemon.name %></a>
+          </td>
+          <td class="text-center">
+            <%= pokemon.level %>
           </td>
           <td>
             <%= render 'layouts/health_bar', pokemon: pokemon %>

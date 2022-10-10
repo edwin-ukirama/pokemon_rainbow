@@ -1,4 +1,6 @@
 class SkillsController < ApplicationController
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "Skill", :skills_path
   def index
     if params[:query].present?
       @skills = Skill.where('skills.name ILIKE ?', "%#{params[:query]}%")
@@ -11,9 +13,11 @@ class SkillsController < ApplicationController
 
   def show
     @skill = Skill.find(params[:id])
+    add_breadcrumb "#{@skill.name.titleize}"
   end
 
   def new
+    add_breadcrumb "Create"
     @skill = Skill.new
   end
 
@@ -30,6 +34,7 @@ class SkillsController < ApplicationController
 
   def edit
     @skill = Skill.find(params[:id])
+    add_breadcrumb "Edit #{@skill.name.titleize}"
   end
 
   def update

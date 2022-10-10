@@ -1,5 +1,7 @@
 require 'pry'
 class PokemonsController < ApplicationController
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "Pokemons", :pokemons_path
   def index
     @pokemons = Pokemon.all
   end
@@ -8,9 +10,11 @@ class PokemonsController < ApplicationController
     @pokemon = Pokemon.find(params[:id])
     @skills = Skill.where(element_type: [@pokemon.pokedex.element_type, "normal"])
           .where.not(id: @pokemon.skills.ids)
+    add_breadcrumb "#{@pokemon.name}"
   end
 
   def new
+    add_breadcrumb "Create Pokemon"
     @pokemon = Pokemon.new
     @pokedexes = Pokedex.all
   end
@@ -38,6 +42,7 @@ class PokemonsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb "Edit Pokemon"
     @pokemon = Pokemon.find(params[:id])
     @skills = Skill.where(element_type: [@pokemon.pokedex.element_type, "normal"])
           .where.not(id: @pokemon.skills.ids)
@@ -64,19 +69,36 @@ class PokemonsController < ApplicationController
   end
 
   def heal
-    @pokemon = Pokemon.find(params[:pokemon_id])
-    @pokemon.current_health_point = @pokemon.max_health_point
-    @pokemon.save
+    pokemon = Pokemon.find(params[:pokemon_id])
 
-    flash[:success] = "#{@pokemon.name} has been healed!"
+    pokemon_ongoing_battle_count = PokemonBattle.pokemon_ongoing_battle(params[:pokemon_id]).count
+    if pokemon_ongoing_battle_count > 0
+      flash[:warning] = "Can't heal pokemon that still on a battle"
+      redirect_to pokemon
+      return
+    end
 
-    redirect_to @pokemon
+    pokemon.current_health_point = pokemon.max_health_point
+    pokemon.pokemon_skills.each do |ref|
+      ref.current_pp = ref.skill.max_pp
+      ref.save
+    end
+    pokemon.save
+
+    flash[:success] = "#{pokemon.name} has been healed!"
+
+    redirect_to pokemon
   end
 
   def heal_all
-    @pokemons = Pokemon.all
-    @pokemons.each do |pokemon|
+    pokemons_in_battle_ids = PokemonBattle.ongoing.pluck(:pokemon_1_id, :pokemon_2_id).flatten
+    pokemons = Pokemon.where.not(id: pokemons_in_battle_ids)
+    pokemons.each do |pokemon|
       pokemon.current_health_point = pokemon.max_health_point
+      pokemon.pokemon_skills.each do |ref|
+        ref.current_pp = ref.skill.max_pp
+        ref.save
+      end
       pokemon.save
     end
 
@@ -85,47 +107,70 @@ class PokemonsController < ApplicationController
   end
 
   def add_skill
-      @pokemon = Pokemon.find(params[:pokemon_id])
-      @skill = Skill.find(params[:skill_id])
-      @pokemon_skill = PokemonSkill.new
-      @pokemon_skill.pokemon_id = @pokemon.id
-      @pokemon_skill.skill_id = @skill.id
-      @pokemon_skill.current_pp = @skill.max_pp
+    pokemon = Pokemon.find(params[:pokemon_id])
 
-      if @pokemon_skill.save
-        flash[:success] = "#{@skill.name.titleize} added!"
-      else
-        flash[:error] = "One pokemon only allowed to have 4 skills maximum!"
-      end
+    pokemon_ongoing_battle_count = PokemonBattle.pokemon_ongoing_battle(params[:pokemon_id]).count
+    if pokemon_ongoing_battle_count > 0
+      flash[:warning] = "Can't refill pp on pokemon that still on a battle"
+      redirect_to pokemon
+      return
+    end
 
-      redirect_to @pokemon
+    skill = Skill.find(params[:skill_id])
+    pokemon_skill = PokemonSkill.new
+    pokemon_skill.pokemon_id = pokemon.id
+    pokemon_skill.skill_id = skill.id
+    pokemon_skill.current_pp = skill.max_pp
+
+    if pokemon_skill.save
+      flash[:success] = "#{skill.name.titleize} added!"
+    else
+      flash[:error] = "One pokemon only allowed to have 4 skills maximum!"
+    end
+
+    redirect_to pokemon
   end
 
   def refill_skill_pp
-    @pokemon = Pokemon.find(params[:pokemon_id])
-    @pokemon_skill = @pokemon.pokemon_skills.find(params[:skill_id])
-    @pokemon_skill.current_pp = @pokemon_skill.skill.max_pp
+    pokemon = Pokemon.find(params[:pokemon_id])
 
-    if @pokemon_skill.save
-      flash[:success] = "#{@pokemon_skill.skill.name.titleize} pp has been refilled!"
-      redirect_to edit_pokemon_path(@pokemon)
+    pokemon_ongoing_battle_count = PokemonBattle.pokemon_ongoing_battle(params[:pokemon_id]).count
+    if pokemon_ongoing_battle_count > 0
+      flash[:warning] = "Can't refill pp on pokemon that still on a battle"
+      redirect_to pokemon
+      return
+    end
+
+    pokemon_skill = pokemon.pokemon_skills.find(params[:skill_id])
+    pokemon_skill.current_pp = pokemon_skill.skill.max_pp
+
+    if pokemon_skill.save
+      flash[:success] = "#{pokemon_skill.skill.name.titleize} pp has been refilled!"
+      redirect_to edit_pokemon_path(pokemon)
     else
-      flash[:error] = "#{@pokemon_skill.errors}"
-      redirect_to edit_pokemon_path(@pokemon), status: :unprocessable_entity
+      flash[:error] = "#{pokemon_skill.errors}"
+      redirect_to edit_pokemon_path(pokemon), status: :unprocessable_entity
     end
   end
 
   def remove_skill
-    @pokemon = Pokemon.find(params[:pokemon_id])
-    @pokemon_skill = @pokemon.pokemon_skills.find(params[:skill_id])
-    @pokemon_skill.destroy
+    pokemon = Pokemon.find(params[:pokemon_id])
 
-    if @pokemon_skill.destroyed?
-      flash[:success] = "#{@pokemon_skill.skill.name.titleize} has been removed!"
-      redirect_to edit_pokemon_path(@pokemon)
+    pokemon_ongoing_battle_count = PokemonBattle.pokemon_ongoing_battle(params[:pokemon_id]).count
+    if pokemon_ongoing_battle_count > 0
+      flash[:warning] = "Can't heal pokemon that still on a battle"
+      redirect_to pokemon
+      return
+    end
+    pokemon_skill = pokemon.pokemon_skills.find(params[:skill_id])
+    pokemon_skill.destroy
+
+    if pokemon_skill.destroyed?
+      flash[:success] = "#{pokemon_skill.skill.name.titleize} has been removed!"
+      redirect_to edit_pokemon_path(pokemon)
     else
-      flash[:error] = "#{@pokemon_skill.errors}"
-      redirect_to edit_pokemon_path(@pokemon), status: :unprocessable_entity
+      flash[:error] = "#{pokemon_skill.errors}"
+      redirect_to edit_pokemon_path(pokemon), status: :unprocessable_entity
     end
   end
 

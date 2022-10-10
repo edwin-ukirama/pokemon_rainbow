@@ -1,5 +1,7 @@
 require "pry"
 class PokedexesController < ApplicationController
+  add_breadcrumb "Home", :root_path
+  add_breadcrumb "Pokédex", :pokedexes_path
   def index
     if params[:query].present?
       @pokedexes = Pokedex.where('pokedexes.name ILIKE ?', "%#{params[:query]}%")
@@ -12,9 +14,11 @@ class PokedexesController < ApplicationController
 
   def show
     @pokedex = Pokedex.find(params[:id])
+    add_breadcrumb "#{@pokedex.name}"
   end
 
   def new
+    add_breadcrumb "Create"
     @pokedex = Pokedex.new
   end
 
@@ -32,6 +36,7 @@ class PokedexesController < ApplicationController
 
   def edit
     @pokedex = Pokedex.find(params[:id])
+    add_breadcrumb "Edit #{@pokedex.name}"
   end
 
   def update

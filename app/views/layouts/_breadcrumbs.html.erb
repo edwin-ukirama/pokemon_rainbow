@@ -1,0 +1,9 @@
+<nav>
+  <ol class="breadcrumb">
+    <%= render_breadcrumbs :tag => :li, :separator => "", :class => 'breadcrumb-item' %>
+  </ol>
+</nav>
+
+<script defer>
+  document.querySelectorAll("nav ol.breadcrumb li").forEach(navItem => navItem.classList.add("breadcrumb-item"))
+</script>

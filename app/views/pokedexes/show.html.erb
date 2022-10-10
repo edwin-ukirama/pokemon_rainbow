@@ -1,6 +1,11 @@
 <div class="container-fluid">
   <div class="row">
-
+    <%= render 'layouts/breadcrumbs' %>
+  </div>
+  <div class="row">
+    <h1><%= @pokedex.name %></h1>
+  </div>
+  <div class="row">
     <div class="col-4">
       <img src="<%= @pokedex.image_url %>" alt="<%= @pokedex.name %>" class="img-thumbnail">
     </div>
@@ -22,7 +27,9 @@
         <dd class="col-sm-9"><%= @pokedex.base_speed %></dd>
 
         <dt class="col-sm-3">Element Type</dt>
-        <dd class="col-sm-9"><%= @pokedex.element_type.titleize %></dd>
+        <dd class="col-sm-9">
+          <%= render 'layouts/type_badge', type: @pokedex.element_type.titleize %>
+        </dd>
       </dl>
     </div>
   </div>
