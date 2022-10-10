@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <%= render 'pokemon_info', pokemon: @battle.pokemon_1, var_name: 'pokemon_1_skill_id' %>
+      <% if @battle.state.eql? PokemonBattle::ONGOING and @battle.current_turn.odd? %>
+        <div class="row">
+          <%= render 'action_buttons', pokemon: @battle.pokemon_1, battle: @battle %>
+        </div>
+      <% end %>
+
+    </div>
+    <div class="col">
+      <div class="text-center">
+        <h4>Turn</h4>
+        <h4><%= @battle.current_turn %></h4>
+
+        <div class="row mt-5">
+          <h2 class="text-center display-1">VS</h2>
+        </div>
+      </div>
+
+      <% if @battle.winner.present? %>
+        <div class="text-center">
+
+          <h1 class="text-center mt-5"><%= @battle.winner.name %> Win!</h1>
+          <p>
+            <%= @battle.winner.name %> gain <%= @battle.experience_gain %> experience point
+          </p>
+        </div>
+      <% end %>
+
+    </div>
+    <div class="col">
+      <%= render 'pokemon_info', pokemon: @battle.pokemon_2 %>
+
+      <% if @battle.state.eql? PokemonBattle::ONGOING and  @battle.current_turn.even? %>
+        <div class="row">
+          <%= render 'action_buttons', pokemon: @battle.pokemon_2, battle: @battle %>
+        </div>
+      <% end %>
+
+    </div>
+
+  </div>
+</div>

@@ -3,8 +3,10 @@ require 'csv'
 require 'net/http'
 
 namespace :pokemon_rainbow do
-  desc "Import pokedex data from pokedex.json on github"
-  task import_pokedex: :environment do
+  desc "Drop DB and Seed data"
+  task drop_and_seed: :environment do
+    Rake::Task["db:migrate:reset"].invoke
+
     uri = URI('https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json'){ |f| f.read}
     data = Net::HTTP.get(uri)
 
@@ -22,9 +24,6 @@ namespace :pokemon_rainbow do
       pokedex = Pokedex.new(new_data)
       pokedex.save
     end
-  end
-
-  task import_skills: :environment do
     file = URI.open("https://docs.google.com/spreadsheets/d/e/2PACX-1vSXcic99Q0mwuJXCiEVfPKac_eJdsggRm3c6sEo1qZpAQc-aOqcMF0Na9s4utuUc39ZM-xnYVUG9sMh/pub?gid=0&single=true&output=csv") { |f| f.read }
     data = CSV.parse(file)
     keys = data.shift
@@ -34,9 +33,23 @@ namespace :pokemon_rainbow do
       skill = Skill.new(skill_params)
       skill.save
     end
-  end
 
-  task import_evolutions: :environment do
+    pokedexes = Pokedex.all
+    pokemon_ids = [133, 4]
+    names = ["Geet", "Val"]
 
+    pokemon_ids.each_with_index do |id, index|
+      @pokedex = Pokedex.find(id)
+      @pokemon = Pokemon.new(name: names[index])
+
+
+      @pokemon.max_health_point = @pokedex.health_point
+      @pokemon.current_health_point = @pokemon.max_health_point
+
+      @pokemon.attack = @pokedex.base_attack
+      @pokemon.defense = @pokedex.base_defense
+      @pokemon.speed = @pokedex.base_speed
+
+    end
   end
 end

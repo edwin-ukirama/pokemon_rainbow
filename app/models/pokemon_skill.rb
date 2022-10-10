@@ -6,7 +6,7 @@ class PokemonSkill < ApplicationRecord
   validates :pokemon_id, presence: true
   validates :skill_id, uniqueness: { scope: :pokemon_id }, presence: true
 
-  validate :validate_skill_count
+  validate :validate_skill_count, on: :create
 
   private
   def validate_skill_count

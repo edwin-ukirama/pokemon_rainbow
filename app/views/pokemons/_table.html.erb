@@ -22,7 +22,9 @@
           <td>
             <a href="<%= pokemon_path(pokemon) %>"> <%= pokemon.name %></a>
           </td>
-          <td><%= pokemon.current_health_point %> / <%= pokemon.max_health_point %> </td>
+          <td>
+            <%= render 'layouts/health_bar', pokemon: pokemon %>
+          </td>
           <td><%= pokemon.attack %></td>
           <td><%= pokemon.defense %></td>
           <td><%= pokemon.speed %></td>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_062549) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_092003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_062549) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "unique_names", unique: true
+  end
+
+  create_table "pokemon_battles", force: :cascade do |t|
+    t.bigint "pokemon_1_id", null: false
+    t.bigint "pokemon_2_id", null: false
+    t.integer "current_turn", default: 1, null: false
+    t.string "state", limit: 45, null: false
+    t.bigint "pokemon_winner_id"
+    t.bigint "pokemon_loser_id"
+    t.integer "experience_gain"
+    t.integer "pokemon_1_max_health_point", null: false
+    t.integer "pokemon_2_max_health_point", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pokemon_1_id"], name: "index_pokemon_battles_on_pokemon_1_id"
+    t.index ["pokemon_2_id"], name: "index_pokemon_battles_on_pokemon_2_id"
+    t.index ["pokemon_loser_id"], name: "index_pokemon_battles_on_pokemon_loser_id"
+    t.index ["pokemon_winner_id"], name: "index_pokemon_battles_on_pokemon_winner_id"
   end
 
   create_table "pokemon_skills", force: :cascade do |t|
@@ -63,6 +81,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_062549) do
     t.index ["name"], name: "unique_skill_names", unique: true
   end
 
+  add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_1_id"
+  add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_2_id"
+  add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_loser_id"
+  add_foreign_key "pokemon_battles", "pokemons", column: "pokemon_winner_id"
   add_foreign_key "pokemon_skills", "pokemons"
   add_foreign_key "pokemon_skills", "skills"
   add_foreign_key "pokemons", "pokedexes"

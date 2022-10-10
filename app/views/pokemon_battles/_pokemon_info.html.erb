@@ -1,0 +1,21 @@
+<h3 class="text-center"><%= pokemon.name %></h3>
+
+<div class="col-8 mx-auto mt-3">
+  <img src="<%= pokemon.pokedex.image_url %>" alt="<%= pokemon.name %>" class="img-thumbnail">
+  <%= render 'layouts/health_bar', pokemon: pokemon %>
+</div>
+<div class="col-10 mx-auto mt-5">
+  <table class="table table-sm">
+    <tr>
+      <th>Name</th>
+      <td><%= pokemon.name %></td>
+    </tr>
+
+    <tr>
+      <th>Element Type</th>
+      <td>
+        <%= render 'layouts/type_badge', type: pokemon.pokedex.element_type.titleize %>
+      </td>
+    </tr>
+  </table>
+</div>

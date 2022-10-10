@@ -18,15 +18,20 @@
         <dt class="col-sm-3">Name</dt>
         <dd class="col-sm-9"><%= @pokemon.name %></dd>
 
+        <dt class="col-sm-3">Level</dt>
+        <dd class="col-sm-9"><%= @pokemon.level %></dd>
+
+        <dt class="col-sm-3 mb-2">Experience</dt>
+        <dd class="col-sm-9">
+          <div class="col-6">
+            <%= render 'layouts/experience_bar', pokemon: @pokemon %>
+          </div>
+        </dd>
+
         <dt class="col-sm-3 mb-2">Health Point (HP)</dt>
         <dd class="col-sm-9">
-          <div class="col-sm-4">
-            <div class="progress">
-              <% hp_percentage = calculate_hp_percentage(@pokemon) %>
-              <div class="progress-bar <%= get_bg_color(@pokemon) %>" role="progressbar" style="width: <%= hp_percentage %>%;">
-                <%= @pokemon.current_health_point %> / <%= @pokemon.max_health_point %>
-              </div>
-            </div>
+          <div class="col-6">
+            <%= render 'layouts/health_bar', pokemon: @pokemon %>
           </div>
         </dd>
 
@@ -57,7 +62,12 @@
 <div class="container-fluid mt-5">
   <div class="d-flex justify-content-between align-items-center my-2">
     <h3>List Attack</h3>
-    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addSkillModal">Add Skill</button>
+    <div class="d-flex">
+      <% if @pokemon.pokemon_skills.count < 4 %>
+        <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#addSkillModal">Add Skill</button>
+      <% end %>
+      <a href="#" class="btn btn-secondary">Refill PP</a>
+    </div>
   </div>
   <table class="table table-sm">
     <thead>
@@ -71,7 +81,11 @@
     <tbody>
       <% @pokemon.pokemon_skills.each do |ref| %>
         <tr>
-          <td><%= ref.skill.name.titleize %></td>
+          <td>
+            <a href="<%= skill_path(ref.skill) %>">
+              <%= ref.skill.name.titleize %>
+            </a>
+          </td>
           <td>
             <%= render 'layouts/type_badge', type: ref.skill.element_type.titleize %>
           </td>

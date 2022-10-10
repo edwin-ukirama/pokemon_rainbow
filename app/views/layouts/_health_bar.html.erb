@@ -1,0 +1,9 @@
+ 
+<div class="progress mt-3 position-relative" style="height:16px; color: black;">
+  <% hp_percentage = calculate_hp_percentage(pokemon) %>
+  <div class="progress-bar <%= get_bg_color(pokemon) %>" role="progressbar" style="width: <%= hp_percentage %>%;">
+  </div>
+  <div class="mx-auto position-absolute <%= 'text-white' if hp_percentage >= 50 %>" style="left:0; right:0; width: 20%;">
+    <%= pokemon.current_health_point %> / <%= pokemon.max_health_point %>
+  </div>
+</div>

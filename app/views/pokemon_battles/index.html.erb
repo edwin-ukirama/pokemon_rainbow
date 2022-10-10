@@ -1,0 +1,38 @@
+<div class="d-flex align-items-center justify-content-between">
+  <h1>Pokemon Battle</h1>
+  <a href="<%= new_pokemon_battle_path %>" class="btn btn-primary">Create Battle</a>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Pokemon 1</th>
+      <th>Pokemon 2</th>
+      <th>Turn</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @battles.each_with_index do |battle, index| %>
+      <tr>
+        <td><%= index+1 %></td>
+        <td>
+          <a href="<%= pokemon_path(battle.pokemon_1) %>"> <%= battle.pokemon_1.name %></a>
+        </td>
+        <td>
+          <a href="<%= pokemon_path(battle.pokemon_2) %>"> <%= battle.pokemon_2.name %></a>
+        </td>
+        <td><%= battle.current_turn %></td>
+        <td>
+          <%= render 'battle_status_badge', status: battle.state %>
+        </td>
+        <td>
+          <a href="<%= pokemon_battle_path(battle) %>" class="btn btn-sm btn-success">Battle</a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

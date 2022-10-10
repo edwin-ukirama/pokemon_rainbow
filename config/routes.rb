@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  resources :pokemon_skills
   root 'home#index'
+  resources :pokemon_battles do
+    post 'action-attack', to: 'pokemon_battles#action_attack', as: :action_attack
+    get 'surrender', to: 'pokemon_battles#surrender', as: :action_surrender
+  end
+  resources :pokemon_skills
   resources :pokemons do
     get :heal, as: :heal
     get :heal_all, on: :collection, as: :heal_all

@@ -4,6 +4,10 @@ class Pokemon < ApplicationRecord
   belongs_to :pokedex
   has_many :pokemon_skills
   has_many :skills, through: :pokemon_skills
+  has_many :pokemon_battles
+
+  # has_many :pokemon_battles, foreign_key: :pokemon_1_id
+  # has_many :pokemon_battles, foreign_key: :pokemon_2_id
 
   validates :name, presence: true, uniqueness: { message: "Pokemon already exist in your dex"}
   validates :max_health_point, numericality: { greater_than: 0 }, presence: true

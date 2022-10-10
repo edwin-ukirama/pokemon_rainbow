@@ -1,0 +1,7 @@
+<% custom_class = case skill.element_type.downcase
+ when "normal" then "text-bg-secondary"
+ else "bg-#{skill.element_type.downcase}"
+ end  %>
+
+<input type="radio" class="btn-check" name="skill_id">
+<label class="btn  <%= custom_class %>"><%= skill.name %></label>

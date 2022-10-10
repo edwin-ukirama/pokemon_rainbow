@@ -39,6 +39,8 @@ class PokemonsController < ApplicationController
 
   def edit
     @pokemon = Pokemon.find(params[:id])
+    @skills = Skill.where(element_type: [@pokemon.pokedex.element_type, "normal"])
+          .where.not(id: @pokemon.skills.ids)
   end
 
   def update
@@ -71,6 +73,17 @@ class PokemonsController < ApplicationController
     redirect_to @pokemon
   end
 
+  def heal_all
+    @pokemons = Pokemon.all
+    @pokemons.each do |pokemon|
+      pokemon.current_health_point = pokemon.max_health_point
+      pokemon.save
+    end
+
+    flash[:success] = "All Pokemon has been healed!"
+    redirect_to pokemons_path
+  end
+
   def add_skill
       @pokemon = Pokemon.find(params[:pokemon_id])
       @skill = Skill.find(params[:skill_id])
@@ -80,9 +93,9 @@ class PokemonsController < ApplicationController
       @pokemon_skill.current_pp = @skill.max_pp
 
       if @pokemon_skill.save
-        flash[:success] = "#{@skill.name} added!"
+        flash[:success] = "#{@skill.name.titleize} added!"
       else
-        flash[:error] = "#{@pokemon_skill.errors}"
+        flash[:error] = "One pokemon only allowed to have 4 skills maximum!"
       end
 
       redirect_to @pokemon

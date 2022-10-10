@@ -1,0 +1,16 @@
+<form action="<%= pokemon_battle_action_attack_path(pokemon_battle_id: battle.id) %>" method="POST">
+  <div class="mb-3">
+    <label for="skill_id" class="form-label">Skill</label>
+    <select name="skill_id" class="form-select">
+      <% pokemon.pokemon_skills.each do |ref| %>
+        <option value="<%= ref.id %>" <%= 'disabled' if ref.current_pp.eql?0 %>><%= ref.skill.name.titleize %>
+          <%= ref.current_pp %>
+        </option>
+        <% end %>
+      </select>
+    </div>
+    <div class="d-flex align-items-center justify-content-between">
+      <button type="submit" class="btn btn-primary" >Attack</button>
+      <a href="<%= pokemon_battle_action_surrender_path(pokemon_battle_id: battle.id) %>" class="btn btn-danger">Surrender</a>
+    </div>
+  </form>

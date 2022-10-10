@@ -1,0 +1,8 @@
+<% custom_class = case status.downcase
+ when "ongoing" then "text-bg-primary"
+ else "text-bg-secondary"
+ end  %>
+
+<span class="badge rounded-pill <%= custom_class %>">
+  <%= status.titleize %>
+</span>
